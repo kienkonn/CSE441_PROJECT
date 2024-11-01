@@ -1,6 +1,8 @@
 package com.example.appdoctruyenonlinekml.model;
 
-public class Chapter {
+import java.io.Serializable;
+
+public class Chapter implements Serializable {
     private String chapterId;
     private int chapterNumber;
     private String content;

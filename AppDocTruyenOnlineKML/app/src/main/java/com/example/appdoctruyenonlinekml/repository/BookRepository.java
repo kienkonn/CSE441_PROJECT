@@ -1,5 +1,7 @@
 package com.example.appdoctruyenonlinekml.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.appdoctruyenonlinekml.model.Book;
@@ -32,7 +34,9 @@ public class BookRepository {
                 List<Book> bookList = new ArrayList<>();
                 for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
                     Book book = bookSnapshot.getValue(Book.class);
-                    bookList.add(book);
+                    if (book != null) { // Kiểm tra null
+                        bookList.add(book);
+                    }
                 }
                 callback.onBooksLoaded(bookList);
             }
@@ -42,5 +46,36 @@ public class BookRepository {
                 // Xử lý lỗi nếu cần
             }
         });
+    }
+
+    public void getAuthorName(String authorId, OnAuthorLoadedCallback callback) {
+        if (authorId == null) {
+            // Xử lý lỗi khi authorId là null
+            Log.e("BookRepository", "authorId is null");
+            callback.onAuthorLoaded(null);
+            return;
+        }
+
+        DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("authors").child(authorId);
+        authorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String authorName = snapshot.child("name").getValue(String.class);
+                callback.onAuthorLoaded(authorName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu cần
+                Log.e("BookRepository", "Error fetching author data: " + error.getMessage());
+            }
+        });
+    }
+
+    public interface OnAuthorLoadedCallback {
+        void onAuthorLoaded(String authorName);
+    }
+    public void removeBooksListener(ValueEventListener listener) {
+        bookRef.removeEventListener(listener);
     }
 }

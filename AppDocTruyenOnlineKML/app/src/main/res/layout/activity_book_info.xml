@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/res-auto"
-    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Thông tin truyện"
+        app:titleTextColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/ivBookCover"
@@ -15,116 +26,104 @@
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageButton
         android:id="@+id/btnAddToLibrary"
-        android:layout_width="64dp"
-        android:layout_height="31dp"
+        android:layout_width="34dp"
+        android:layout_height="42dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="Thêm vào tủ sách"
         android:src="@drawable/ic_add_to_library"
-        app2:layout_constraintBottom_toBottomOf="parent"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.073"
-        app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/ivBookCover"
-        app2:layout_constraintVertical_bias="0.0"
-        app:layout_constraintBottom_toBottomOf="@+id/ivBookCover"
-        app:layout_constraintStart_toStartOf="@+id/ivBookCover" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivBookCover"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvBookTitle"
         android:layout_width="200dp"
         android:layout_height="24dp"
+        android:layout_marginTop="8dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.256"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/tvBookStatus"
         android:layout_width="180dp"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.183"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toBottomOf="@id/tvBookAuthor" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@id/tvBookAuthor" />
 
     <TextView
         android:id="@+id/tvBookChapter"
         android:layout_width="180dp"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.183"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toBottomOf="@+id/tvBookStatus" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/tvBookStatus" />
 
     <TextView
         android:id="@+id/tvBookAuthor"
         android:layout_width="180dp"
         android:layout_height="18dp"
-        android:layout_marginTop="16dp"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.183"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toBottomOf="@+id/tvBookTitle" />
+        android:layout_marginTop="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/tvBookRating"
         android:layout_width="180dp"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.183"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toBottomOf="@+id/tvBookViews" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/tvBookViews" />
 
     <TextView
         android:id="@+id/tvBookViews"
         android:layout_width="180dp"
         android:layout_height="18dp"
         android:layout_marginTop="8dp"
-        app2:layout_constraintEnd_toEndOf="parent"
-        app2:layout_constraintHorizontal_bias="0.183"
-        app2:layout_constraintStart_toEndOf="@+id/ivBookCover"
-        app2:layout_constraintTop_toBottomOf="@+id/tvBookChapter" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/tvBookChapter" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroupGenres"
-        android:layout_width="27dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app2:layout_constraintTop_toBottomOf="@+id/btnAddToLibrary"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddToLibrary"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnRead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
         android:text="Đọc truyện"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="637dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/btnChapterList"
         android:layout_width="47dp"
         android:layout_height="49dp"
+        android:layout_marginEnd="316dp"
         android:src="@drawable/ic_chapter_list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="637dp" />
-
+        android:contentDescription="Danh sách chương"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

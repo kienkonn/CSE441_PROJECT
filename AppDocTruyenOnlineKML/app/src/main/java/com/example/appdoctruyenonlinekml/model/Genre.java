@@ -1,8 +1,9 @@
 package com.example.appdoctruyenonlinekml.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Genre {
+public class Genre implements Serializable {
     private String name;
     private List<String> bookIds;
 

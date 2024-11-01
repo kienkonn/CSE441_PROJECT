@@ -1,24 +1,28 @@
 package com.example.appdoctruyenonlinekml.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Book {
+public class Book implements Serializable {
     private String bookId;
     private String title;
-    private String author;
+    private String authorId;
     private String imageUrl;
     private double rating;
     private String status;
+    private int views;
+    private List<String> genres; // Các thể loại của sách
+    private Map<String, Chapter> chapters;
 
 
     public Book() {
     }
 
-    public Book(String bookId, String title, String author, String imageUrl, String status, double rating, List<String> genres, Map<String, Chapter> chapters) {
+    public Book(String bookId, String title, String authorId, String imageUrl, String status, double rating, List<String> genres, Map<String, Chapter> chapters,int views) {
         this.bookId = bookId;
         this.title = title;
-        this.author = author;
+        this.authorId = authorId;
         this.imageUrl = imageUrl;
         this.status = status;
         this.rating = rating;
@@ -26,8 +30,6 @@ public class Book {
         this.chapters = chapters;
     }
 
-    private List<String> genres;
-    private Map<String, Chapter> chapters;
 
     public String getBookId() {
         return bookId;
@@ -45,12 +47,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(String author) {
+        this.authorId = author;
     }
 
     public double getRating() {
@@ -92,4 +94,8 @@ public class Book {
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
+
+    public int getViews() {return views;}
+
+    public void setViews(int views) {this.views = views;}
 }

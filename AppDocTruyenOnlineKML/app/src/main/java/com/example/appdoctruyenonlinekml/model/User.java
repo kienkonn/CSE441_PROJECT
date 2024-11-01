@@ -1,8 +1,9 @@
 package com.example.appdoctruyenonlinekml.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private String userId;
     private String name;
     private String email;

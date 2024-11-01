@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.example.appdoctruyenonlinekml.view.fragment.HistoryFragment;
+import com.example.appdoctruyenonlinekml.view.fragment.HomeFragment;
 import com.example.appdoctruyenonlinekml.view.fragment.ProfileFragment;
-import com.example.appdoctruyenonlinekml.view.fragment.ReadingFragment;
 import com.example.appdoctruyenonlinekml.view.fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Hiển thị ReadingFragment mặc định khi mở ứng dụng
         if (savedInstanceState == null) {
-            loadFragment(new ReadingFragment());
+            loadFragment(new HomeFragment());
             setActiveButton(btnHome); // Đánh dấu nút Home là đã chọn
         }
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupButtonClickListeners() {
         btnHome.setOnClickListener(v -> {
-            loadFragment(new ReadingFragment());
+            loadFragment(new HomeFragment());
             setActiveButton(btnHome);
         });
 
