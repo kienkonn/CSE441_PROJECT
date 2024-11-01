@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -32,13 +33,15 @@ android {
 }
 
 dependencies {
-
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("androidx.fragment:fragment:1.8.5")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation(libs.recyclerview)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,66 +1,83 @@
 package com.example.appdoctruyenonlinekml;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+import android.widget.ImageButton;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.appdoctruyenonlinekml.adapter.BookAdapter;
-import com.example.appdoctruyenonlinekml.model.Book;
-//import com.google.firebase.database.DataSnapshot;
-//import com.google.firebase.database.DatabaseError;
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
-//import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import com.example.appdoctruyenonlinekml.view.fragment.HistoryFragment;
+import com.example.appdoctruyenonlinekml.view.fragment.ProfileFragment;
+import com.example.appdoctruyenonlinekml.view.fragment.ReadingFragment;
+import com.example.appdoctruyenonlinekml.view.fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private BookAdapter bookAdapter;
-    private List<Book> bookList;
-
-//    // Firebase Database reference
-//    private FirebaseDatabase database;
-//    private DatabaseReference bookRef;
+    private ImageButton btnHistory, btnHome, btnSearch, btnProfile;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Khởi tạo RecyclerView
-        recyclerView = findViewById(R.id.rvHotStories);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        // Ánh xạ các nút điều hướng
+        btnHistory = findViewById(R.id.btnHistory);
+        btnHome = findViewById(R.id.btnHome);
+        btnSearch = findViewById(R.id.btnSearch);
+        btnProfile = findViewById(R.id.btnProfile);
 
-        // Khởi tạo danh sách và adapter
-        bookList = new ArrayList<>();
-        bookAdapter = new BookAdapter(this, bookList);
-        recyclerView.setAdapter(bookAdapter);
+        // Hiển thị ReadingFragment mặc định khi mở ứng dụng
+        if (savedInstanceState == null) {
+            loadFragment(new ReadingFragment());
+            setActiveButton(btnHome); // Đánh dấu nút Home là đã chọn
+        }
 
-//        // Firebase Database reference
-//        database = FirebaseDatabase.getInstance();
-//        bookRef = database.getReference("books");
-//
-//        // Lắng nghe sự thay đổi dữ liệu từ Firebase và cập nhật bookList
-//        bookRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                bookList.clear();  // Xóa dữ liệu cũ
-//                for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
-//                    Book book = bookSnapshot.getValue(Book.class);
-//                    bookList.add(book);  // Thêm dữ liệu mới vào danh sách
-//                }
-//                bookAdapter.notifyDataSetChanged();  // Cập nhật RecyclerView
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // Xử lý lỗi nếu có
-//            }
-//        });
+        // Cài đặt sự kiện click cho các nút
+        setupButtonClickListeners();
+    }
+
+    private void setupButtonClickListeners() {
+        btnHome.setOnClickListener(v -> {
+            loadFragment(new ReadingFragment());
+            setActiveButton(btnHome);
+        });
+
+        btnHistory.setOnClickListener(v -> {
+            loadFragment(new HistoryFragment());
+            setActiveButton(btnHistory);
+        });
+
+        btnSearch.setOnClickListener(v -> {
+            loadFragment(new SearchFragment());
+            setActiveButton(btnSearch);
+        });
+
+        btnProfile.setOnClickListener(v -> {
+            loadFragment(new ProfileFragment());
+            setActiveButton(btnProfile);
+        });
+    }
+
+    // Phương thức để load Fragment
+    private void loadFragment(Fragment fragment) {
+        if (findViewById(R.id.fragment_container) != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null) // Thêm vào back stack để có thể quay lại
+                    .commit();
+        }
+    }
+
+    // Phương thức để thay đổi trạng thái của nút
+    private void setActiveButton(ImageButton activeButton) {
+        resetButtonStates(); // Đặt lại trạng thái của tất cả các nút
+        activeButton.setColorFilter(Color.YELLOW); // Thay đổi màu của nút đang được chọn
+    }
+
+    // Phương thức để reset trạng thái của tất cả các nút
+    private void resetButtonStates() {
+        btnHome.clearColorFilter();
+        btnHistory.clearColorFilter();
+        btnSearch.clearColorFilter();
+        btnProfile.clearColorFilter();
     }
 }

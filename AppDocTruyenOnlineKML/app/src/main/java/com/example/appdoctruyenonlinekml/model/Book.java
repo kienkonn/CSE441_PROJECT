@@ -11,6 +11,10 @@ public class Book {
     private double rating;
     private String status;
 
+
+    public Book() {
+    }
+
     public Book(String bookId, String title, String author, String imageUrl, String status, double rating, List<String> genres, Map<String, Chapter> chapters) {
         this.bookId = bookId;
         this.title = title;

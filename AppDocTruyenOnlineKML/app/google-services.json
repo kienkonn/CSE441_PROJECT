@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "98481075465",
+    "firebase_url": "https://applmk-default-rtdb.firebaseio.com",
+    "project_id": "applmk",
+    "storage_bucket": "applmk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98481075465:android:a073e2e28f59e80b510fd8",
+        "android_client_info": {
+          "package_name": "com.example.appdoctruyenonlinekml"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRQR7QiJyUIZhuV1jLJK5prDh1DGR0hYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

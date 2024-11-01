@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Phần Header với ảnh đại diện và tên người dùng -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="59dp">
+
+        <TextView
+            android:id="@+id/tvGreeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chào mừng quý đọc giả!"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- Danh sách đang đọc -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đang đọc..."
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvReading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Truyện hot -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Truyện hot"
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHotStories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Đề xuất bởi biên tập viên -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đề xuất bởi biên tập viên"
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEditorPicks"
+        android:layout_width="match_parent"
+        android:layout_height="148dp" />
+
+</LinearLayout>

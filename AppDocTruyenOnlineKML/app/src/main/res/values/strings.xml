@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AppDocTruyenOnlineKML</string>
+    <string name="list_chapter">Danh sách chương</string>
+    <string name="font_size">Kích thước chữ</string>
+    <string name="settings">Cài đặt</string>
 </resources>
