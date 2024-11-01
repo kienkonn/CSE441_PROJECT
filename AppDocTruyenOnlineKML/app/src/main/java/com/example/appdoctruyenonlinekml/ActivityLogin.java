@@ -2,42 +2,78 @@ package com.example.appdoctruyenonlinekml;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PatternMatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ActivityLogin extends AppCompatActivity {
-    DBHelper dbHelper;
+    private FirebaseAuth auth;
+
     EditText username;
     EditText password;
     Button loginButton;
+    TextView txtgoR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
-        dbHelper = new DBHelper(this);
         username = findViewById(R.id.edt_email);
         password = findViewById(R.id.edt_password);
+        txtgoR = findViewById(R.id.txt_goR);
+        txtgoR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityLogin.this, ActivityRegister.class);
+                startActivity(intent);
+            }
+        });
         loginButton = findViewById(R.id.btn_login);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isLoggedId = dbHelper.checkUser(username.getText().toString(), password.getText().toString());
-                if (isLoggedId){
-                    Intent intent = new Intent(ActivityLogin.this, ActivityRvProducts.class);
-                    startActivity(intent);
-                }else
-                    Toast.makeText(ActivityLogin.this, "Đăng nhập thất bại!", Toast.LENGTH_LONG).show();
-//                if (username.getText().toString().equals("kienkonn@gmail.com") && password.getText().toString().equals("1234")) {
-//                    Toast.makeText(ActivityLogin.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(ActivityLogin.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
-//                }
+                String user = username.getText().toString().trim();
+                String pass = password.getText().toString().trim();
+
+                if(!user.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(user).matches()){
+                    if(!pass.isEmpty()) {
+                        auth.signInWithEmailAndPassword(user, pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                Toast.makeText(ActivityLogin.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ActivityLogin.this, ActivityMain.class));
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ActivityLogin.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else{
+                        password.setError("Mật khẩu không được bỏ trống!");
+                    }
+                }else if(user.isEmpty()){
+                    username.setError("Email không được bỏ trống");
+                } else {
+                    username.setError("Vui lòng nhập email hợp lệ!");
+                }
             }
         });
     }
