@@ -14,7 +14,7 @@ import com.example.appdoctruyenonlinekml.adapter.BookAdapter;
 import com.example.appdoctruyenonlinekml.model.Book;
 import java.util.List;
 
-public class HistoryFragment extends Fragment implements BookAdapter.OnBookClickListener {
+public class LibraryFragment extends Fragment implements BookAdapter.OnBookClickListener {
 
     private RecyclerView recyclerView;
     private BookAdapter bookAdapter;
@@ -22,21 +22,21 @@ public class HistoryFragment extends Fragment implements BookAdapter.OnBookClick
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_reading_history, container, false);
-        recyclerView = view.findViewById(R.id.rvReadingHistory);
+        View view = inflater.inflate(R.layout.fragment_library, container, false);
+        recyclerView = view.findViewById(R.id.rvFavoriteBooks);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         bookAdapter = new BookAdapter(this);
         recyclerView.setAdapter(bookAdapter);
 
-        loadReadingHistory(); // Tải lịch sử đọc từ nguồn dữ liệu
+        loadFavoriteBooks(); // Tải sách yêu thích từ nguồn dữ liệu
         return view;
     }
 
-    private void loadReadingHistory() {
-        // Thêm logic để tải lịch sử đọc từ Firebase hoặc nguồn dữ liệu khác
-        List<Book> readingHistory = ...; // Lấy danh sách sách trong lịch sử đọc
-        bookAdapter.setBooks(readingHistory);
+    private void loadFavoriteBooks() {
+        // Thêm logic để tải sách yêu thích từ Firebase hoặc nguồn dữ liệu khác
+        List<Book> favoriteBooks = ...; // Lấy danh sách sách yêu thích
+        bookAdapter.setBooks(favoriteBooks);
     }
 
     @Override

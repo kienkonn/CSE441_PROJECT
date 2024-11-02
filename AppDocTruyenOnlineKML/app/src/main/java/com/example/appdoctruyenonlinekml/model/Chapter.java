@@ -3,25 +3,30 @@ package com.example.appdoctruyenonlinekml.model;
 import java.io.Serializable;
 
 public class Chapter implements Serializable {
-    private String chapterId;
+    private String chapterID;
     private int chapterNumber;
     private String content;
+    private String title;
 
     public Chapter() {
+        // Constructor mặc định cho Firebase
     }
 
-    public Chapter(String chapterId, int chapterNumber, String content) {
-        this.chapterId = chapterId;
+    // Constructor với tham số
+    public Chapter(String chapterID, int chapterNumber, String content, String title) {
+        this.chapterID = chapterID;
         this.chapterNumber = chapterNumber;
         this.content = content;
+        this.title = title;
     }
 
-    public String getChapterId() {
-        return chapterId;
+    // Getter và Setter
+    public String getChapterID() {
+        return chapterID;
     }
 
-    public void setChapterId(String chapterId) {
-        this.chapterId = chapterId;
+    public void setChapterID(String chapterID) {
+        this.chapterID = chapterID;
     }
 
     public int getChapterNumber() {
@@ -39,4 +44,13 @@ public class Chapter implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
+

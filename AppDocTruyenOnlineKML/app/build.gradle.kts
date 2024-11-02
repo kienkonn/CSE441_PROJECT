@@ -35,11 +35,13 @@ android {
 dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("androidx.fragment:fragment:1.8.5")
+    implementation("com.github.angcyo.DslTablayout:TabLayout:3.5.5")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("androidx.viewpager2:viewpager2:1.1.0")
     implementation(libs.recyclerview)
     implementation(libs.firebase.database)
     testImplementation(libs.junit)

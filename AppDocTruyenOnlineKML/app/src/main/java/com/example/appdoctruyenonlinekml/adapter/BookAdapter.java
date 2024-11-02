@@ -19,16 +19,16 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
 
     private List<Book> books;
-    private OnBookClickListener onBookClickListener; // Thêm listener
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-        notifyDataSetChanged();
-    }
+    private OnBookClickListener onBookClickListener; // Listener để xử lý sự kiện click
 
     // Khởi tạo Adapter với listener
     public BookAdapter(OnBookClickListener listener) {
         this.onBookClickListener = listener;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+        notifyDataSetChanged(); // Cập nhật giao diện
     }
 
     @NonNull

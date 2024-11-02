@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.BookDetailActivity" />
         <activity android:name=".view.BookInfoActivity" />
+        <activity android:name=".view.ChapterListActivity"/>
+        <activity android:name=".view.ChapterActivity"/>
+
 
     </application>
 

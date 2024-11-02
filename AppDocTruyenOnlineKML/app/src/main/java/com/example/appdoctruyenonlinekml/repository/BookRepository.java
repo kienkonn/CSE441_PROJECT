@@ -2,9 +2,8 @@ package com.example.appdoctruyenonlinekml.repository;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.appdoctruyenonlinekml.model.Book;
+import com.example.appdoctruyenonlinekml.model.Chapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,67 +14,115 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookRepository {
-
-    private final DatabaseReference bookRef;
+    private final DatabaseReference databaseReference;
 
     public BookRepository() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        bookRef = database.getReference("books");
-    }
-
-    public interface OnBooksLoadedCallback {
-        void onBooksLoaded(List<Book> bookList);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public void getBooks(OnBooksLoadedCallback callback) {
-        bookRef.addValueEventListener(new ValueEventListener() {
+        databaseReference.child("books").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 List<Book> bookList = new ArrayList<>();
                 for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
                     Book book = bookSnapshot.getValue(Book.class);
-                    if (book != null) { // Kiểm tra null
+                    if (book != null) {
                         bookList.add(book);
                     }
                 }
+                Log.d("BookRepository", "Books retrieved: " + bookList.size());
                 callback.onBooksLoaded(bookList);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu cần
+            public void onCancelled(DatabaseError error) {
+                Log.e("BookRepository", "Error retrieving books: " + error.getMessage());
+                callback.onError(error.toException());
+            }
+        });
+    }
+
+    public void getChapters(String bookId, OnChaptersLoadedCallback callback) {
+        databaseReference.child("books").child(bookId).child("chapters").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Chapter> chapterList = new ArrayList<>();
+                for (DataSnapshot chapterSnapshot : snapshot.getChildren()) {
+                    Chapter chapter = chapterSnapshot.getValue(Chapter.class);
+                    if (chapter != null) {
+                        chapterList.add(chapter);
+                    }
+                }
+                Log.d("BookRepository", "Chapters retrieved: " + chapterList.size());
+                callback.onChaptersLoaded(chapterList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("BookRepository", "Error retrieving chapters: " + error.getMessage());
+                callback.onError(error.toException());
             }
         });
     }
 
     public void getAuthorName(String authorId, OnAuthorLoadedCallback callback) {
-        if (authorId == null) {
-            // Xử lý lỗi khi authorId là null
-            Log.e("BookRepository", "authorId is null");
-            callback.onAuthorLoaded(null);
-            return;
-        }
-
-        DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("authors").child(authorId);
-        authorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("authors").child(authorId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 String authorName = snapshot.child("name").getValue(String.class);
-                callback.onAuthorLoaded(authorName);
+                if (authorName != null) {
+                    callback.onAuthorLoaded(authorName);
+                } else {
+                    callback.onError(new Exception("Tên tác giả không tìm thấy"));
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu cần
-                Log.e("BookRepository", "Error fetching author data: " + error.getMessage());
+            public void onCancelled(DatabaseError error) {
+                callback.onError(error.toException());
             }
         });
     }
 
+    // Cập nhật BookRepository với các phương thức mới cho Chapter
+    public void getChapterById(String bookId, String chapterId, OnChapterLoadedCallback callback) {
+        databaseReference.child("books").child(bookId).child("chapters").child(chapterId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Chapter chapter = snapshot.getValue(Chapter.class);
+                if (chapter != null) {
+                    callback.onChapterLoaded(chapter);
+                } else {
+                    callback.onError(new Exception("Chương không tìm thấy"));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("BookRepository", "Error retrieving chapter: " + error.getMessage());
+                callback.onError(error.toException());
+            }
+        });
+    }
+
+    public interface OnChapterLoadedCallback {
+        void onChapterLoaded(Chapter chapter);
+        void onError(Exception e);
+    }
+
+    public interface OnChaptersLoadedCallback {
+        void onChaptersLoaded(List<Chapter> chapterList);
+        void onError(Exception e);
+    }
+
     public interface OnAuthorLoadedCallback {
         void onAuthorLoaded(String authorName);
+        void onError(Exception e);
     }
-    public void removeBooksListener(ValueEventListener listener) {
-        bookRef.removeEventListener(listener);
+
+    public interface OnBooksLoadedCallback {
+        void onBooksLoaded(List<Book> bookList);
+        void onError(Exception e);
     }
 }
