@@ -57,7 +57,7 @@ public class ActivityLogin extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 Toast.makeText(ActivityLogin.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ActivityLogin.this, ActivityMain.class));
+                                startActivity(new Intent(ActivityLogin.this, MainActivity.class));
                                 finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
