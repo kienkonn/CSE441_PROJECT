@@ -6,7 +6,8 @@ import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import com.example.appdoctruyenonlinekml.view.fragment.HistoryFragment;
+
+import com.example.appdoctruyenonlinekml.view.fragment.FragmentHistory;
 import com.example.appdoctruyenonlinekml.view.fragment.HomeFragment;
 import com.example.appdoctruyenonlinekml.view.fragment.ProfileFragment;
 import com.example.appdoctruyenonlinekml.view.fragment.SearchFragment;
@@ -25,10 +26,15 @@ public class MainActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
         btnProfile = findViewById(R.id.btnProfile);
 
-        // Hiển thị ReadingFragment mặc định khi mở ứng dụng
-        if (savedInstanceState == null) {
+        // Kiểm tra Intent để mở HomeFragment nếu cần
+        if (getIntent().getBooleanExtra("openHomeFragment", false)) {
             loadFragment(new HomeFragment());
-            setActiveButton(btnHome); // Đánh dấu nút Home là đã chọn
+            setActiveButton(btnHome);
+        } else if (savedInstanceState == null) {
+            loadFragment(new HomeFragment());
+            setActiveButton(btnHome);
+        } else {
+            setButtonStateFromCurrentFragment();
         }
 
         // Cài đặt sự kiện click cho các nút
@@ -36,48 +42,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupButtonClickListeners() {
-        btnHome.setOnClickListener(v -> {
-            loadFragment(new HomeFragment());
-            setActiveButton(btnHome);
-        });
-
-        btnHistory.setOnClickListener(v -> {
-            loadFragment(new HistoryFragment());
-            setActiveButton(btnHistory);
-        });
-
-        btnSearch.setOnClickListener(v -> {
-            loadFragment(new SearchFragment());
-            setActiveButton(btnSearch);
-        });
-
-        btnProfile.setOnClickListener(v -> {
-            loadFragment(new ProfileFragment());
-            setActiveButton(btnProfile);
-        });
+        btnHome.setOnClickListener(v -> onNavButtonClick(new HomeFragment(), btnHome));
+        btnHistory.setOnClickListener(v -> onNavButtonClick(new FragmentHistory(), btnHistory));
+        btnSearch.setOnClickListener(v -> onNavButtonClick(new SearchFragment(), btnSearch));
+        btnProfile.setOnClickListener(v -> onNavButtonClick(new ProfileFragment(), btnProfile));
     }
 
-    // Phương thức để load Fragment
+    private void onNavButtonClick(Fragment fragment, ImageButton button) {
+        loadFragment(fragment);
+        setActiveButton(button);
+    }
+
     private void loadFragment(Fragment fragment) {
-        if (findViewById(R.id.fragment_container) != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null) // Thêm vào back stack để có thể quay lại
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
-    // Phương thức để thay đổi trạng thái của nút
     private void setActiveButton(ImageButton activeButton) {
-        resetButtonStates(); // Đặt lại trạng thái của tất cả các nút
-        activeButton.setColorFilter(Color.YELLOW); // Thay đổi màu của nút đang được chọn
+        resetButtonStates();
+        activeButton.setColorFilter(Color.YELLOW);
     }
 
-    // Phương thức để reset trạng thái của tất cả các nút
     private void resetButtonStates() {
         btnHome.clearColorFilter();
         btnHistory.clearColorFilter();
         btnSearch.clearColorFilter();
         btnProfile.clearColorFilter();
+    }
+
+    private void setButtonStateFromCurrentFragment() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment instanceof HomeFragment) {
+            setActiveButton(btnHome);
+        } else if (currentFragment instanceof FragmentHistory) {
+            setActiveButton(btnHistory);
+        } else if (currentFragment instanceof SearchFragment) {
+            setActiveButton(btnSearch);
+        } else if (currentFragment instanceof ProfileFragment) {
+            setActiveButton(btnProfile);
+        }
     }
 }

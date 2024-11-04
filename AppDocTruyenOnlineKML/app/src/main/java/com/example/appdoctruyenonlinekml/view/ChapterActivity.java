@@ -72,21 +72,23 @@ public class ChapterActivity extends AppCompatActivity {
     private void loadChapterById(String chapterId) {
         chapterViewModel.getChapter(bookId, chapterId).observe(this, chapter -> {
             if (chapter != null) {
-                chapterTitleTextView.setText(chapter.getTitle());
-                chapterContentTextView.setText(chapter.getContent());
-                currentChapterNumber = chapter.getChapterNumber(); // Cập nhật số thứ tự chương hiện tại
+                updateChapterUI(chapter);
             } else {
                 Toast.makeText(ChapterActivity.this, "Chương không tồn tại", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void updateChapterUI(Chapter chapter) {
+        chapterTitleTextView.setText(chapter.getTitle());
+        chapterContentTextView.setText(chapter.getContent());
+        currentChapterNumber = chapter.getChapterNumber();
+    }
+
     private void loadChapterByNumber(int chapterNumber) {
         chapterViewModel.getChapterByNumber(bookId, chapterNumber).observe(this, chapter -> {
             if (chapter != null) {
-                chapterTitleTextView.setText(chapter.getTitle());
-                chapterContentTextView.setText(chapter.getContent());
-                currentChapterNumber = chapter.getChapterNumber(); // Cập nhật số thứ tự chương hiện tại
+                updateChapterUI(chapter);
             } else {
                 Toast.makeText(ChapterActivity.this, "Chương không tồn tại", Toast.LENGTH_SHORT).show();
             }

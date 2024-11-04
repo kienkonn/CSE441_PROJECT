@@ -19,11 +19,9 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate layout cho fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.activity_login_profile, container, false);
 
-        // Tạo TextView để hiển thị thông điệp
-        TextView textView = view.findViewById(R.id.tvProfile);
-        textView.setText("Trang cá nhân");
+
 
         return view;
     }

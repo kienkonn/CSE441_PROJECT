@@ -4,43 +4,45 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.appdoctruyenonlinekml.R;
-import com.example.appdoctruyenonlinekml.adapter.BookAdapter;
-import com.example.appdoctruyenonlinekml.model.Book;
-import java.util.List;
+import com.example.appdoctruyenonlinekml.model.User;
+import com.example.appdoctruyenonlinekml.repository.UserRepository;
 
-public class LibraryFragment extends Fragment implements BookAdapter.OnBookClickListener {
+public class LibraryFragment extends Fragment {
+    private UserRepository userRepository;
+    private TextView textViewFavorites; // TextView để hiển thị sách yêu thích
 
-    private RecyclerView recyclerView;
-    private BookAdapter bookAdapter;
-
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library, container, false);
-        recyclerView = view.findViewById(R.id.rvFavoriteBooks);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        textViewFavorites = view.findViewById(R.id.tvLibraryTitle);
 
-        bookAdapter = new BookAdapter(this);
-        recyclerView.setAdapter(bookAdapter);
+        // Khởi tạo UserRepository và lấy dữ liệu người dùng
+        userRepository = new UserRepository();
+        String userId = "userID1"; // Thay bằng ID người dùng thực tế
 
-        loadFavoriteBooks(); // Tải sách yêu thích từ nguồn dữ liệu
+        userRepository.getUserData(userId, new UserRepository.OnUserDataLoadedCallback() {
+            @Override
+            public void onUserDataLoaded(User user) {
+                // Hiển thị sách yêu thích
+                StringBuilder favorites = new StringBuilder("Sách yêu thích:\n");
+                for (String bookId : user.getFavoriteBooks()) {
+                    favorites.append("Sách ID: ").append(bookId).append("\n");
+                }
+                textViewFavorites.setText(favorites.toString());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                textViewFavorites.setText("Không thể tải sách yêu thích.");
+            }
+        });
+
         return view;
-    }
-
-    private void loadFavoriteBooks() {
-        // Thêm logic để tải sách yêu thích từ Firebase hoặc nguồn dữ liệu khác
-        List<Book> favoriteBooks = ...; // Lấy danh sách sách yêu thích
-        bookAdapter.setBooks(favoriteBooks);
-    }
-
-    @Override
-    public void onBookClick(Book book) {
-        // Xử lý sự kiện khi nhấn vào sách
     }
 }

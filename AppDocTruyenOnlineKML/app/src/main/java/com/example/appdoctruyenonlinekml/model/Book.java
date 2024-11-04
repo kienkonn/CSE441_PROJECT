@@ -1,11 +1,14 @@
 package com.example.appdoctruyenonlinekml.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Book implements Serializable {
+public class Book implements Parcelable {
     private String bookID; // ID của sách
     private String title; // Tiêu đề sách
     private String authorID; // ID của tác giả
@@ -136,4 +139,72 @@ public class Book implements Serializable {
     public List<Chapter> getAllChapters() {
         return chapters != null ? new ArrayList<>(chapters.values()) : new ArrayList<>();
     }
+
+    // Phương thức để viết đối tượng vào Parcel
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bookID);
+        dest.writeString(title);
+        dest.writeString(authorID);
+        dest.writeString(imageUrl);
+        dest.writeDouble(rating);
+        dest.writeString(status);
+        dest.writeInt(views);
+        dest.writeStringList(genres);
+
+        // Ghi lại các chương
+        dest.writeInt(chapters != null ? chapters.size() : 0);
+        if (chapters != null) {
+            for (Map.Entry<String, Chapter> entry : chapters.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeParcelable(entry.getValue(), flags);
+            }
+        }
+
+        dest.writeString(description);
+        dest.writeString(genreID);
+    }
+
+    // Phương thức để lấy kích thước của đối tượng
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Tạo đối tượng từ Parcel
+    protected Book(Parcel in) {
+        bookID = in.readString();
+        title = in.readString();
+        authorID = in.readString();
+        imageUrl = in.readString();
+        rating = in.readDouble();
+        status = in.readString();
+        views = in.readInt();
+        genres = in.createStringArrayList();
+
+        // Đọc lại các chương
+        int chaptersSize = in.readInt();
+        chapters = new HashMap<>();
+        for (int i = 0; i < chaptersSize; i++) {
+            String key = in.readString();
+            Chapter chapter = in.readParcelable(Chapter.class.getClassLoader());
+            chapters.put(key, chapter);
+        }
+
+        description = in.readString();
+        genreID = in.readString();
+    }
+
+    // Tạo một Creator để khôi phục đối tượng từ Parcel
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }

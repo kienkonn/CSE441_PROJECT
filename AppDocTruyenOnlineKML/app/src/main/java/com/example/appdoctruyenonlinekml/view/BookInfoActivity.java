@@ -16,19 +16,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appdoctruyenonlinekml.R;
 import com.example.appdoctruyenonlinekml.model.Book;
-import com.example.appdoctruyenonlinekml.model.Chapter;
 import com.example.appdoctruyenonlinekml.repository.BookRepository;
+import com.example.appdoctruyenonlinekml.viewmodel.BooksViewModel;
 import com.example.appdoctruyenonlinekml.viewmodel.ChapterViewModel;
+import com.example.appdoctruyenonlinekml.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 public class BookInfoActivity extends AppCompatActivity {
     // Khai báo các view
     private TextView tvTitle, tvAuthor, tvStatus, tvRating, tvViews, tvChapters;
     private ImageView ivBookCover;
-    private ImageButton btnChapterList;
-    private ImageButton btnRead;
+    private ImageButton btnChapterList, btnRead;
+    private ImageButton btnAddToLibrary; // Khai báo btnAddToLibrary
 
     private ChapterViewModel chapterViewModel;
+    private BooksViewModel bookViewModel; // Khai báo BooksViewModel
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,12 @@ public class BookInfoActivity extends AppCompatActivity {
         // Khởi tạo các view
         initializeViews();
 
-        // Khởi tạo ViewModel
+        // Khởi tạo ViewModels
         chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
+        bookViewModel = new ViewModelProvider(this).get(BooksViewModel.class); // Khởi tạo BooksViewModel
 
         // Nhận dữ liệu từ Intent
-        Book book = (Book) getIntent().getSerializableExtra("BOOK_EXTRA");
+        Book book = getIntent().getParcelableExtra("BOOK_EXTRA");
 
         // Cập nhật UI với dữ liệu sách
         if (book != null) {
@@ -69,6 +72,12 @@ public class BookInfoActivity extends AppCompatActivity {
         ivBookCover = findViewById(R.id.ivBookCover);
         btnChapterList = findViewById(R.id.btnChapterList);
         btnRead = findViewById(R.id.btnRead);
+        btnAddToLibrary = findViewById(R.id.btnAddToLibrary); // Khởi tạo btnAddToLibrary
+    }
+
+    private String getUserId() {
+        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        return userViewModel.getCurrentUserId(); // Giả sử bạn có phương thức này trong UserViewModel
     }
 
     private void updateUIWithBookData(Book book) {
@@ -100,6 +109,18 @@ public class BookInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "Không có chương nào để đọc", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Sự kiện khi nhấn vào btnAddToLibrary
+        btnAddToLibrary.setOnClickListener(view -> {
+            String userId = getUserId(); // Lấy ID người dùng thực tế
+            if (userId != null) {
+                bookViewModel.addBookToLibrary(book, userId); // Gọi phương thức thêm sách vào thư viện
+                Toast.makeText(this, "Đã thêm vào tủ sách!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Không thể lấy ID người dùng", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void loadChapterByNumber(String bookId, int chapterNumber) {
@@ -121,24 +142,21 @@ public class BookInfoActivity extends AppCompatActivity {
             repository.getAuthorName(authorId, new BookRepository.OnAuthorLoadedCallback() {
                 @Override
                 public void onAuthorLoaded(String authorName) {
-                    tvAuthor.setText(authorName != null ? authorName : "Chưa có thông tin");
+                    tvAuthor.setText(authorName);
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    Log.e("BookInfoActivity", "Error loading author name: " + e.getMessage());
-                    tvAuthor.setText("Lỗi khi lấy tên tác giả");
+                    Log.e("BookInfoActivity", "Error loading author: " + e.getMessage());
                 }
             });
-        } else {
-            tvAuthor.setText("Chưa có thông tin");
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Quay lại màn hình trước
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

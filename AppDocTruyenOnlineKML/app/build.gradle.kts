@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("androidx.fragment:fragment:1.8.5")
-    implementation("com.github.angcyo.DslTablayout:TabLayout:3.5.5")
+//    implementation("com.github.angcyo.DslTablayout:TabLayout:3.5.5")
+    implementation("com.google.firebase:firebase-auth:23.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
