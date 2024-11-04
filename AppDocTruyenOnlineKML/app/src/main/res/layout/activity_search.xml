@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/search_layout"
-
     android:background="#F5F5F5">
 
     <!-- Thanh tìm kiếm -->
@@ -43,11 +42,13 @@
             android:textColorHint="#888"/>
 
         <ImageView
+            android:id="@+id/searchIcon"
             android:layout_width="32dp"
             android:layout_height="37dp"
             android:layout_marginStart="8dp"
             android:contentDescription="Search Icon"
             android:src="@drawable/ic_search" />
+
     </LinearLayout>
 
     <!-- TextView hiển thị gợi ý -->
@@ -62,4 +63,12 @@
         android:textSize="16sp"
         android:textColor="#000" />
 
+    <!-- RecyclerView hiển thị kết quả tìm kiếm -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_suggestions"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"/>
 </RelativeLayout>
