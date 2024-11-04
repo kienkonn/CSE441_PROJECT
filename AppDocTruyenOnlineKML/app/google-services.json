@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "112457572392",
+    "firebase_url": "https://appdoctruyenonlinekml-default-rtdb.firebaseio.com",
+    "project_id": "appdoctruyenonlinekml",
+    "storage_bucket": "appdoctruyenonlinekml.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112457572392:android:acc344e15a9fd48e11951d",
+        "android_client_info": {
+          "package_name": "com.example.appdoctruyenonlinekml"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLvx9sVtr8nIXUErs23Si2D-0UCnd5bfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

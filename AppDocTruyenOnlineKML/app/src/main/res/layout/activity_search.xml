@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- Thanh tìm kiếm -->
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentTop="true"
+        android:elevation="4dp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#E0E0E0"
+        android:gravity="center_vertical"
+        android:background="@drawable/rounded_corner">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_menu_filter"
+            android:contentDescription="Menu Icon"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Tìm kiếm"
+            android:background="@null"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColor="#000"
+            android:textColorHint="#888"/>
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Search Icon"
+            android:src="@drawable/ic_search" />
+    </LinearLayout>
+
+    <!-- TextView hiển thị gợi ý -->
+    <TextView
+        android:id="@+id/tv_suggestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_bar"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Từ khóa hay được tìm kiếm"
+        android:textSize="16sp"
+        android:textColor="#000" />
+
+</RelativeLayout>
