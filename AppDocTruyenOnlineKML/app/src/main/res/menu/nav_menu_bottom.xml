@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btn_previous"
+        android:icon="@drawable/ic_previous"
+        android:title="Trang trước" />
+    <item
+        android:id="@+id/btn_next"
+        android:icon="@drawable/ic_next"
+        android:title="Trang sau" />
+    <item
+        android:id="@+id/btn_list"
+        android:icon="@drawable/ic_list"
+        android:title="@string/list_chapter" />
+</menu>

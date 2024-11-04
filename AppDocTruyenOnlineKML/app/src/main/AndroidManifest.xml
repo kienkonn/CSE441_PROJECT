@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppDocTruyenOnlineKML"
         tools:targetApi="31">
+        <activity android:name=".view.ActivityLogin"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,6 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.fragment.HomeFragment" />
+        <activity android:name=".view.BookInfoActivity" />
+        <activity android:name=".view.ChapterListActivity"/>
+        <activity android:name=".view.ChapterActivity"/>
+        <activity android:name=".view.fragment.ActivityRegister"/>
+
     </application>
 
 </manifest>
